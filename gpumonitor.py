@@ -4,7 +4,7 @@ import os
 import pwd
 import subprocess
 import time
-from dot_env import load_dotenv
+from dotenv import load_dotenv
 
 import json
 import requests

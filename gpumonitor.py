@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 import os
 import pwd
@@ -50,13 +50,13 @@ while (True):
         
 	# Create string
         messageString = "### New GPU Job\n User **@" +  username + "** has created a job named **" + processName + "** on GPU with pid **" + pid + "** consuming **" + processMemory + "** memory."
-        print messageString
+        print(messageString)
 
         messageData={'text': messageString, 'icon_url': nvidiaLogoLink}
-	print messageData
+	print(messageData)
 	response = requests.post(mattermostIncomingWebhook, data=json.dumps(messageData), headers={'Content-Type': 'application/json'})
         if response.status_code != 200:
-          print 'Request error ', response.status_code, ' the response is:\n', response.text
+          print('Request error ', response.status_code, ' the response is:\n', response.text)
 
 	# Activate statusUpdate
         showStatusUpdate = True
@@ -68,7 +68,7 @@ while (True):
 	if pid not in saveKnownDic:
           saveKnownDic[pid] = list()
           saveKnownDic[pid] = tempList
-        print saveKnownDic
+        print(saveKnownDic)
 
       if pid.isdigit():
         seenPIDS.append(pid)
@@ -78,13 +78,13 @@ while (True):
     statusFinding=subprocess.Popen(['nvidia-smi'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     currentStatus=statusFinding.stdout.read()
     currentStatusString='### Status after starting new jobs\n ``` \n' + currentStatus + '\n ```'
-    print currentStatusString
+    print(currentStatusString)
     statusData={'text': currentStatusString, 'icon_url': nvidiaLogoLink}
-    print statusData
+    print(statusData)
     
     response = requests.post(mattermostIncomingWebhook, data=json.dumps(statusData), headers={'Content-Type': 'application/json'})
     if response.status_code != 200:
-      print 'Request error ', response.status_code, ' the response is:\n', response.text
+      print('Request error ', response.status_code, ' the response is:\n', response.text)
 
   # Compare seenPIDS with knownPIDS and notify user if job is finished
   finishedPIDS = list(set(saveKnownPIDS) - set(seenPIDS))
@@ -94,13 +94,13 @@ while (True):
     if username != None and processName != None: 
       # Create string
       messageString = "### Finished GPU Job\n User **@" +  username + "** your job named **" + processName + "** with pid **" + pid + "** has finished."
-      print messageString
+      print(messageString)
 
       messageData={'text': messageString, 'icon_url': nvidiaLogoLink}
-      print messageData
+      print(messageData)
       response = requests.post(mattermostIncomingWebhook, data=json.dumps(messageData), headers={'Content-Type': 'application/json'})
       if response.status_code != 200:
-        print 'Request error ', response.status_code, ' the response is:\n', response.text
+        print('Request error ', response.status_code, ' the response is:\n', response.text)
 
     saveKnownPIDS.remove(pid)
     del saveKnownDic[pid]

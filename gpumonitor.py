@@ -28,9 +28,9 @@ while (True):
     # List contains jobs seen at this time, so that one can find and show finished jobs
     seenPIDS = []
 
-    pidfinding = subprocess.Popen(['nvidia-smi', '--query-compute-apps=pid,process_name,used_memory',
-                                   '--format=csv,noheader'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    pidProcessMemorystring = pidfinding.stdout.read()
+    pidfinding = subprocess.run(['nvidia-smi', '--query-compute-apps=pid,process_name,used_memory',
+                                   '--format=csv,noheader'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    pidProcessMemorystring = pidfinding.stdout
     pidProcessMemorys = pidProcessMemorystring.split('\n')
 
     for info in pidProcessMemorys:

@@ -79,9 +79,9 @@ while (True):
 
     # Show status update after last new job is published
     if showStatusUpdate:
-        statusFinding = subprocess.Popen(
-            ['nvidia-smi'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        currentStatus = statusFinding.stdout.read()
+        statusFinding = subprocess.run(
+            ['nvidia-smi'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        currentStatus = statusFinding.stdout
         currentStatusString = '### Status after starting new jobs\n ``` \n' + \
             currentStatus + '\n ```'
         print(currentStatusString)

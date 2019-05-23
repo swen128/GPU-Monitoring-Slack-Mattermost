@@ -4,11 +4,13 @@ import os
 import pwd
 import subprocess
 import time
+from dot_env import load_dotenv
 
 import json
 import requests
 
-mattermostIncomingWebhook=""
+load_dotenv()
+mattermostIncomingWebhook = os.getenv("WEBHOOK")
 nvidiaLogoLink=""
 
 # Saves all known and already published jobs, so that they get not published again
